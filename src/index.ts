@@ -6,6 +6,7 @@ import IDrivers from "./IDrivers";
 // Import all drivers
 import HiveDriver from "./hive/HiveDriver";
 import PostgreSQL from "./postgresql/PostgreSQL";
+import Tibero from "./tibero/Tibero";
 
 // Import dependecies
 const jdbc = require('jdbc');
@@ -15,13 +16,13 @@ const path = require('path');
 // Connection Type
 export enum ConnectionType {
     hive = 'H', // using hive driver
-    // mysql = 'M', // using mysql driver
+    tibero = 'T', // using tibero driver
     postgreSql = 'P', // using postgre sql driver
 }
 
 const CType = {
     H: HiveDriver,
-    // M: '',
+    T: Tibero,
     P: PostgreSQL,
 };
 
