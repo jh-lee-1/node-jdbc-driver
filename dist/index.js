@@ -115,6 +115,19 @@ var JdbcDriver = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
+        this.ddl = function (sql) { return __awaiter(_this, void 0, void 0, function () {
+            var res;
+            return __generator(this, function (_a) {
+                try {
+                    res = this.executeUpdate(sql);
+                    return [2 /*return*/, res];
+                }
+                catch (err) {
+                    console.log('Error in ddl:::', err);
+                }
+                return [2 /*return*/];
+            });
+        }); };
         this.close = function () {
             try {
                 var coon = JdbcDriver.connection.get(_this.type);
@@ -186,6 +199,41 @@ var JdbcDriver = /** @class */ (function () {
                                                     _a.label = 3;
                                                 case 3: return [2 /*return*/];
                                             }
+                                        });
+                                    }); });
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); })];
+            });
+        }); };
+        this.executeUpdate = function (sql) { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                        var statement;
+                        var _this = this;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.createStatement()];
+                                case 1:
+                                    statement = _a.sent();
+                                    statement.executeUpdate(sql, function (err, count) { return __awaiter(_this, void 0, void 0, function () {
+                                        var _this = this;
+                                        return __generator(this, function (_a) {
+                                            if (err)
+                                                reject(err);
+                                            else
+                                                resolve(count);
+                                            statement.close(function (err) {
+                                                if (err)
+                                                    console.log('Statement closing issues::::');
+                                                else {
+                                                    console.log('Statement closed');
+                                                    _this.close();
+                                                }
+                                            });
+                                            return [2 /*return*/];
                                         });
                                     }); });
                                     return [2 /*return*/];

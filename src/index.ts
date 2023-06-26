@@ -61,6 +61,17 @@ export default class JdbcDriver implements IDrivers{
 
     }
 
+    public ddl = async (sql:string) => {
+        try{
+            const res = this.executeUpdate(sql)
+            return res
+        }catch(err){
+            console.log('Error in ddl:::', err)
+        }
+
+    }
+
+
     protected close = () => {
         try{
             const coon = JdbcDriver.connection.get(this.type)
@@ -107,6 +118,23 @@ export default class JdbcDriver implements IDrivers{
                         })
                     })                    
                 }
+            })
+        })
+    }
+
+    protected executeUpdate = async (sql:any) => {
+        return new Promise(async (resolve, reject) => {
+            const statement: any = await this.createStatement()
+            statement.executeUpdate(sql, async (err:any, count:any) => {
+                if(err) reject(err)
+                else resolve(count)
+                statement.close((err:any)=> {
+                    if(err) console.log('Statement closing issues::::')
+                    else {
+                        console.log('Statement closed')
+                        this.close()
+                    }
+                })
             })
         })
     }
