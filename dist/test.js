@@ -66,12 +66,14 @@ var port = 0; // <port>
 var database = '<database_name>';
 var username = '<username>';
 var password = '<password>';
+var minpoolsize = 10;
+var maxpoolsize = 100;
 var get_count = function () { return __awaiter(void 0, void 0, void 0, function () {
     var jdbc, count;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                jdbc = new index_1.default(index_1.ConnectionType.postgreSql, { host: host, port: port, database: database, username: username, password: password });
+                jdbc = new index_1.default(index_1.ConnectionType.postgreSql, { host: host, port: port, database: database, username: username, password: password, minpoolsize: minpoolsize, maxpoolsize: maxpoolsize });
                 return [4 /*yield*/, jdbc.count('test')];
             case 1:
                 count = _a.sent();

@@ -5,4 +5,6 @@ export default interface IConnectionConfig {
     database: string;
     username: string;
     password: string;
+    minpoolsize: number,
+    maxpoolsize: number,
 }
