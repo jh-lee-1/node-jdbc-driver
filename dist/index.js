@@ -133,7 +133,7 @@ var JdbcDriver = /** @class */ (function () {
                 var coon = JdbcDriver.connection.get(_this.type);
                 if (coon) {
                     if (coon._reserved && coon._reserved.length) {
-                        coon._reserved[0].conn.close(function (err) {
+                        coon._reserved[0].conn.release(function (err) {
                             if (err)
                                 console.log('Reserved Connection closing issues::::');
                             else
@@ -144,7 +144,7 @@ var JdbcDriver = /** @class */ (function () {
                         console.log('Reserved connection not found!');
                     }
                     if (coon._pool && coon._pool.length) {
-                        coon._pool[0].conn.close(function (err) {
+                        coon._pool[0].conn.release(function (err) {
                             if (err)
                                 console.log('Pool Connection closing issues::::');
                             else
@@ -154,7 +154,7 @@ var JdbcDriver = /** @class */ (function () {
                     else {
                         console.log('Pool connection not found!');
                     }
-                    JdbcDriver.connection.delete(_this.type);
+                    //JdbcDriver.connection.delete(this.type)
                 }
             }
             catch (err) {
