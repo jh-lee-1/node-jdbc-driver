@@ -128,51 +128,43 @@ var JdbcDriver = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
-        this.close = function () {
-            try {
-                var coon = JdbcDriver.connection.get(_this.type);
-                if (coon) {
-                    if (coon._reserved && coon._reserved.length) {
-                        coon._reserved[0].conn.release(function (err) {
-                            if (err)
-                                console.log('Reserved Connection closing issues::::');
-                            else
-                                console.log('Reserved Connection closed');
-                        });
+        this.close = function (connObj) { return __awaiter(_this, void 0, void 0, function () {
+            var coon;
+            return __generator(this, function (_a) {
+                try {
+                    coon = JdbcDriver.connection.get(this.type);
+                    if (coon) {
+                        if (coon._reserved && coon._reserved.length) {
+                            coon.release(connObj, function (err) {
+                                if (err)
+                                    console.log('Connection relase issues::::');
+                                else
+                                    console.log('Connection relase');
+                            });
+                        }
+                        else {
+                            console.log('connection not found!');
+                        }
                     }
-                    else {
-                        console.log('Reserved connection not found!');
-                    }
-                    if (coon._pool && coon._pool.length) {
-                        coon._pool[0].conn.release(function (err) {
-                            if (err)
-                                console.log('Pool Connection closing issues::::');
-                            else
-                                console.log('Pool Connection closed');
-                        });
-                    }
-                    else {
-                        console.log('Pool connection not found!');
-                    }
-                    //JdbcDriver.connection.delete(this.type)
                 }
-            }
-            catch (err) {
-                console.log('Connection close error:::::', err);
-            }
-        };
+                catch (err) {
+                    console.log('Connection close error:::::', err);
+                }
+                return [2 /*return*/];
+            });
+        }); };
         this.executeQuery = function (sql) { return __awaiter(_this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                        var statement;
+                        var stat;
                         var _this = this;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.createStatement()];
                                 case 1:
-                                    statement = _a.sent();
-                                    statement.executeQuery(sql, function (err, resultset) { return __awaiter(_this, void 0, void 0, function () {
+                                    stat = _a.sent();
+                                    stat.statement.executeQuery(sql, function (err, resultset) { return __awaiter(_this, void 0, void 0, function () {
                                         var _this = this;
                                         return __generator(this, function (_a) {
                                             switch (_a.label) {
@@ -185,12 +177,12 @@ var JdbcDriver = /** @class */ (function () {
                                                             reject(err);
                                                         else
                                                             resolve(rows);
-                                                        statement.close(function (err) {
+                                                        stat.statement.close(function (err) {
                                                             if (err)
                                                                 console.log('Statement closing issues::::');
                                                             else {
                                                                 console.log('Statement closed');
-                                                                _this.close();
+                                                                _this.close(stat.connObj);
                                                             }
                                                         });
                                                     })];
@@ -211,26 +203,26 @@ var JdbcDriver = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                        var statement;
+                        var stat;
                         var _this = this;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.createStatement()];
                                 case 1:
-                                    statement = _a.sent();
-                                    statement.executeUpdate(sql, function (err, count) { return __awaiter(_this, void 0, void 0, function () {
+                                    stat = _a.sent();
+                                    stat.statement.executeUpdate(sql, function (err, count) { return __awaiter(_this, void 0, void 0, function () {
                                         var _this = this;
                                         return __generator(this, function (_a) {
                                             if (err)
                                                 reject(err);
                                             else
                                                 resolve(count);
-                                            statement.close(function (err) {
+                                            stat.statement.close(function (err) {
                                                 if (err)
                                                     console.log('Statement closing issues::::');
                                                 else {
                                                     console.log('Statement closed');
-                                                    _this.close();
+                                                    _this.close(stat.connObj);
                                                 }
                                             });
                                             return [2 /*return*/];
@@ -259,7 +251,7 @@ var JdbcDriver = /** @class */ (function () {
                                             if (err)
                                                 reject(err);
                                             else
-                                                resolve(statement);
+                                                resolve([statement, connObj]);
                                         });
                                     }
                                     else {
