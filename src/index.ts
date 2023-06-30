@@ -72,28 +72,19 @@ export default class JdbcDriver implements IDrivers{
     }
 
 
-    protected close = () => {
+    protected close = async (connObj:any) => {
         try{
             const coon = JdbcDriver.connection.get(this.type)
             if(coon){
                 if(coon._reserved && coon._reserved.length){
-                    coon._reserved[0].conn.release((err:any) => {
-                        if(err) console.log('Reserved Connection closing issues::::')
-                        else console.log('Reserved Connection closed')
+                    coon.release(connObj ,(err:any) => {
+                        if(err) console.log('Connection relase issues::::')
+                        else console.log('Connection relase')
                     })
                 }else{
-                    console.log('Reserved connection not found!')
+                    console.log('connection not found!')
                 }
 
-                if(coon._pool && coon._pool.length){
-                    coon._pool[0].conn.release((err:any) => {
-                        if(err) console.log('Pool Connection closing issues::::')
-                        else console.log('Pool Connection closed')
-                    })
-                }else{
-                    console.log('Pool connection not found!')
-                }
-                //JdbcDriver.connection.delete(this.type)
             }
         }catch(err){
             console.log('Connection close error:::::', err)
@@ -102,18 +93,18 @@ export default class JdbcDriver implements IDrivers{
 
     protected executeQuery = async (sql:any) => {
         return new Promise(async (resolve, reject) => {
-            const statement: any = await this.createStatement()
-            statement.executeQuery(sql, async (err:any, resultset:any) => {
+            const stat: any = await this.createStatement()
+            stat.statement.executeQuery(sql, async (err:any, resultset:any) => {
                 if(err) reject(err)
                 else {
                     await resultset.toObjArray((err:any, rows: any) => {
                         if (err) reject(err)
                         else resolve(rows)
-                        statement.close((err:any)=> {
+                        stat.statement.close((err:any)=> {
                             if(err) console.log('Statement closing issues::::')
                             else {
                                 console.log('Statement closed')
-                                this.close()
+                                this.close(stat.connObj)
                             }
                         })
                     })                    
@@ -124,15 +115,15 @@ export default class JdbcDriver implements IDrivers{
 
     protected executeUpdate = async (sql:any) => {
         return new Promise(async (resolve, reject) => {
-            const statement: any = await this.createStatement()
-            statement.executeUpdate(sql, async (err:any, count:any) => {
+            const stat: any = await this.createStatement()
+            stat.statement.executeUpdate(sql, async (err:any, count:any) => {
                 if(err) reject(err)
                 else resolve(count)
-                statement.close((err:any)=> {
+                stat.statement.close((err:any)=> {
                     if(err) console.log('Statement closing issues::::')
                     else {
                         console.log('Statement closed')
-                        this.close()
+                        this.close(stat.connObj)
                     }
                 })
             })
@@ -147,7 +138,7 @@ export default class JdbcDriver implements IDrivers{
                 const conn = connObj.conn;
                 conn.createStatement((err:any, statement: any) => {
                     if(err) reject(err)
-                    else resolve(statement)
+                    else resolve([statement, connObj])
                 })
             }else{
                 reject('Connection object not found')
