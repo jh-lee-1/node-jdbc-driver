@@ -133,19 +133,12 @@ var JdbcDriver = /** @class */ (function () {
             return __generator(this, function (_a) {
                 try {
                     coon = JdbcDriver.connection.get(this.type);
-                    if (coon) {
-                        if (coon._reserved && coon._reserved.length) {
-                            coon.release(connObj, function (err) {
-                                if (err)
-                                    console.log('Connection relase issues::::');
-                                else
-                                    console.log('Connection relase');
-                            });
-                        }
-                        else {
-                            console.log('connection not found!');
-                        }
-                    }
+                    coon.release(connObj, function (err) {
+                        if (err)
+                            console.log('Connection relase issues::::');
+                        else
+                            console.log('Connection relase');
+                    });
                 }
                 catch (err) {
                     console.log('Connection close error:::::', err);
@@ -164,7 +157,7 @@ var JdbcDriver = /** @class */ (function () {
                                 case 0: return [4 /*yield*/, this.createStatement()];
                                 case 1:
                                     stat = _a.sent();
-                                    stat.statement.executeQuery(sql, function (err, resultset) { return __awaiter(_this, void 0, void 0, function () {
+                                    stat[0].executeQuery(sql, function (err, resultset) { return __awaiter(_this, void 0, void 0, function () {
                                         var _this = this;
                                         return __generator(this, function (_a) {
                                             switch (_a.label) {
@@ -177,12 +170,12 @@ var JdbcDriver = /** @class */ (function () {
                                                             reject(err);
                                                         else
                                                             resolve(rows);
-                                                        stat.statement.close(function (err) {
+                                                        stat[0].close(function (err) {
                                                             if (err)
                                                                 console.log('Statement closing issues::::');
                                                             else {
                                                                 console.log('Statement closed');
-                                                                _this.close(stat.connObj);
+                                                                _this.close(stat[1]);
                                                             }
                                                         });
                                                     })];
@@ -210,19 +203,19 @@ var JdbcDriver = /** @class */ (function () {
                                 case 0: return [4 /*yield*/, this.createStatement()];
                                 case 1:
                                     stat = _a.sent();
-                                    stat.statement.executeUpdate(sql, function (err, count) { return __awaiter(_this, void 0, void 0, function () {
+                                    stat[0].executeUpdate(sql, function (err, count) { return __awaiter(_this, void 0, void 0, function () {
                                         var _this = this;
                                         return __generator(this, function (_a) {
                                             if (err)
                                                 reject(err);
                                             else
                                                 resolve(count);
-                                            stat.statement.close(function (err) {
+                                            stat[0].close(function (err) {
                                                 if (err)
                                                     console.log('Statement closing issues::::');
                                                 else {
                                                     console.log('Statement closed');
-                                                    _this.close(stat.connObj);
+                                                    _this.close(stat[1]);
                                                 }
                                             });
                                             return [2 /*return*/];

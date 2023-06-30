@@ -75,17 +75,10 @@ export default class JdbcDriver implements IDrivers{
     protected close = async (connObj:any) => {
         try{
             const coon = JdbcDriver.connection.get(this.type)
-            if(coon){
-                if(coon._reserved && coon._reserved.length){
-                    coon.release(connObj ,(err:any) => {
-                        if(err) console.log('Connection relase issues::::')
-                        else console.log('Connection relase')
-                    })
-                }else{
-                    console.log('connection not found!')
-                }
-
-            }
+            coon.release(connObj,(err:any) => {
+                if(err) console.log('Connection relase issues::::')
+                else console.log('Connection relase')
+            })
         }catch(err){
             console.log('Connection close error:::::', err)
         }
@@ -94,17 +87,17 @@ export default class JdbcDriver implements IDrivers{
     protected executeQuery = async (sql:any) => {
         return new Promise(async (resolve, reject) => {
             const stat: any = await this.createStatement()
-            stat.statement.executeQuery(sql, async (err:any, resultset:any) => {
+            stat[0].executeQuery(sql, async (err:any, resultset:any) => {
                 if(err) reject(err)
                 else {
                     await resultset.toObjArray((err:any, rows: any) => {
                         if (err) reject(err)
                         else resolve(rows)
-                        stat.statement.close((err:any)=> {
+                        stat[0].close((err:any)=> {
                             if(err) console.log('Statement closing issues::::')
                             else {
                                 console.log('Statement closed')
-                                this.close(stat.connObj)
+                                this.close(stat[1])
                             }
                         })
                     })                    
@@ -116,14 +109,14 @@ export default class JdbcDriver implements IDrivers{
     protected executeUpdate = async (sql:any) => {
         return new Promise(async (resolve, reject) => {
             const stat: any = await this.createStatement()
-            stat.statement.executeUpdate(sql, async (err:any, count:any) => {
+            stat[0].executeUpdate(sql, async (err:any, count:any) => {
                 if(err) reject(err)
                 else resolve(count)
-                stat.statement.close((err:any)=> {
+                stat[0].close((err:any)=> {
                     if(err) console.log('Statement closing issues::::')
                     else {
                         console.log('Statement closed')
-                        this.close(stat.connObj)
+                        this.close(stat[1])
                     }
                 })
             })
