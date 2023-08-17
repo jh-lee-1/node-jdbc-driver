@@ -66,13 +66,32 @@ var port = 8629;
 var database = 'tibero';
 var username = 'xems';
 var password = 'xems2023';
-var minpoolsize = 10;
-var maxpoolsize = 100;
+var minpoolsize = 5;
+var maxpoolsize = 20;
 var get_test = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var jdbc;
-    return __generator(this, function (_a) {
-        jdbc = new index_1.default(index_1.ConnectionType.tibero, { host: host, port: port, database: database, username: username, password: password, minpoolsize: minpoolsize, maxpoolsize: maxpoolsize });
-        return [2 /*return*/];
+    var jdbc, i, count, _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                jdbc = new index_1.default(index_1.ConnectionType.tibero, { host: host, port: port, database: database, username: username, password: password, minpoolsize: minpoolsize, maxpoolsize: maxpoolsize });
+                i = 0;
+                _c.label = 1;
+            case 1:
+                if (!(i < 100)) return [3 /*break*/, 5];
+                return [4 /*yield*/, jdbc.count('xems.tbb_device')];
+            case 2:
+                count = _c.sent();
+                _b = (_a = console).log;
+                return [4 /*yield*/, jdbc.connection_details()];
+            case 3:
+                _b.apply(_a, [_c.sent()]);
+                console.log(count);
+                _c.label = 4;
+            case 4:
+                i++;
+                return [3 /*break*/, 1];
+            case 5: return [2 /*return*/];
+        }
     });
 }); };
 get_test();

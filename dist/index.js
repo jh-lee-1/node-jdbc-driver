@@ -266,12 +266,15 @@ var JdbcDriver = /** @class */ (function () {
                                 case 0:
                                     connection = JdbcDriver.connection.get(this.type);
                                     if (!this.is_init(connection)) return [3 /*break*/, 1];
-                                    console.log('_reserved ' + connection._reserved[0]);
                                     resolve(connection._reserved[0]);
-                                    return [3 /*break*/, 3];
-                                case 1: return [4 /*yield*/, this.init(connection)];
+                                    return [3 /*break*/, 4];
+                                case 1:
+                                    if (!!connection._pool.length) return [3 /*break*/, 3];
+                                    return [4 /*yield*/, this.init(connection)];
                                 case 2:
                                     _a.sent();
+                                    _a.label = 3;
+                                case 3:
                                     connection.reserve(function (err, connObj) {
                                         if (err) {
                                             reject(err);
@@ -280,8 +283,8 @@ var JdbcDriver = /** @class */ (function () {
                                             resolve(connObj);
                                         }
                                     });
-                                    _a.label = 3;
-                                case 3: return [2 /*return*/];
+                                    _a.label = 4;
+                                case 4: return [2 /*return*/];
                             }
                         });
                     }); })];

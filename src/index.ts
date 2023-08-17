@@ -84,6 +84,8 @@ export default class JdbcDriver implements IDrivers{
         }
     }
 
+    
+
     protected executeQuery = async (sql:any) => {
         return new Promise(async (resolve, reject) => {
             const stat: any = await this.createStatement()
@@ -143,10 +145,12 @@ export default class JdbcDriver implements IDrivers{
         return new Promise(async (resolve, reject) => {
             const connection = JdbcDriver.connection.get(this.type)
             if (this.is_init(connection)){
-                console.log('_reserved ' +connection._reserved[0])
                 resolve(connection._reserved[0])            
-            }else{
-                await this.init(connection) 
+            }
+            else{
+                if(!connection._pool.length){
+                    await this.init(connection)
+                }
                 connection.reserve((err:any, connObj: any) => {
                     if (err) {
                         reject(err)
