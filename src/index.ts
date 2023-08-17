@@ -72,7 +72,7 @@ export default class JdbcDriver implements IDrivers{
     }
 
 
-    protected release = async (connObj:any) => {
+    protected close = async (connObj:any) => {
         try{
             const coon = JdbcDriver.connection.get(this.type)
             coon.release(connObj,(err:any) => {
@@ -93,7 +93,13 @@ export default class JdbcDriver implements IDrivers{
                     await resultset.toObjArray((err:any, rows: any) => {
                         if (err) reject(err)
                         else resolve(rows)
-                        this.release(stat[1])
+                        stat[0].close((err:any)=> {
+                            if(err) console.log('Statement closing issues::::')
+                            else {
+                                console.log('Statement closed')
+                                this.close(stat[1])
+                            }
+                        })
                     })                    
                 }
             })
@@ -106,7 +112,13 @@ export default class JdbcDriver implements IDrivers{
             stat[0].executeUpdate(sql, async (err:any, count:any) => {
                 if(err) reject(err)
                 else resolve(count)
-                this.release(stat[1])
+                stat[0].close((err:any)=> {
+                    if(err) console.log('Statement closing issues::::')
+                    else {
+                        console.log('Statement closed')
+                        this.close(stat[1])
+                    }
+                })
             })
         })
     }
@@ -131,6 +143,7 @@ export default class JdbcDriver implements IDrivers{
         return new Promise(async (resolve, reject) => {
             const connection = JdbcDriver.connection.get(this.type)
             if (this.is_init(connection)){
+                console.log('_reserved ' +connection._reserved[0])
                 resolve(connection._reserved[0])            
             }else{
                 await this.init(connection) 

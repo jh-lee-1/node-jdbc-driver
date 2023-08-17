@@ -128,7 +128,7 @@ var JdbcDriver = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
-        this.release = function (connObj) { return __awaiter(_this, void 0, void 0, function () {
+        this.close = function (connObj) { return __awaiter(_this, void 0, void 0, function () {
             var coon;
             return __generator(this, function (_a) {
                 try {
@@ -170,7 +170,14 @@ var JdbcDriver = /** @class */ (function () {
                                                             reject(err);
                                                         else
                                                             resolve(rows);
-                                                        _this.release(stat[1]);
+                                                        stat[0].close(function (err) {
+                                                            if (err)
+                                                                console.log('Statement closing issues::::');
+                                                            else {
+                                                                console.log('Statement closed');
+                                                                _this.close(stat[1]);
+                                                            }
+                                                        });
                                                     })];
                                                 case 2:
                                                     _a.sent();
@@ -197,12 +204,20 @@ var JdbcDriver = /** @class */ (function () {
                                 case 1:
                                     stat = _a.sent();
                                     stat[0].executeUpdate(sql, function (err, count) { return __awaiter(_this, void 0, void 0, function () {
+                                        var _this = this;
                                         return __generator(this, function (_a) {
                                             if (err)
                                                 reject(err);
                                             else
                                                 resolve(count);
-                                            this.release(stat[1]);
+                                            stat[0].close(function (err) {
+                                                if (err)
+                                                    console.log('Statement closing issues::::');
+                                                else {
+                                                    console.log('Statement closed');
+                                                    _this.close(stat[1]);
+                                                }
+                                            });
                                             return [2 /*return*/];
                                         });
                                     }); });
@@ -251,6 +266,7 @@ var JdbcDriver = /** @class */ (function () {
                                 case 0:
                                     connection = JdbcDriver.connection.get(this.type);
                                     if (!this.is_init(connection)) return [3 /*break*/, 1];
+                                    console.log('_reserved ' + connection._reserved[0]);
                                     resolve(connection._reserved[0]);
                                     return [3 /*break*/, 3];
                                 case 1: return [4 /*yield*/, this.init(connection)];

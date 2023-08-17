@@ -22,7 +22,7 @@ export default class JdbcDriver implements IDrivers {
     connection_details: () => any;
     sql: (sql: string) => Promise<unknown>;
     ddl: (sql: string) => Promise<unknown>;
-    protected release: (connObj: any) => Promise<void>;
+    protected close: (connObj: any) => Promise<void>;
     protected executeQuery: (sql: any) => Promise<unknown>;
     protected executeUpdate: (sql: any) => Promise<unknown>;
     protected createStatement: () => Promise<unknown>;
