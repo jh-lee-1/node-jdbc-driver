@@ -75,11 +75,11 @@ export default class JdbcDriver implements IDrivers{
     protected close = async (connObj:any) => {
         try{
             const coon = JdbcDriver.connection.get(this.type)
-            console.log('bf pool length ?? '+coon._pool.length)
+            console.log('release bf pool length ?? '+coon._pool.length)
             coon.release(connObj,(err:any) => {
                 if(err) console.log('Connection relase issues::::')
                 else console.log('Connection relase')
-                console.log('af pool length'+coon._pool.length)
+                console.log('release af pool length'+coon._pool.length)
             })
         }catch(err){
             console.log('Connection close error:::::', err)
@@ -95,6 +95,7 @@ export default class JdbcDriver implements IDrivers{
                     await resultset.toObjArray((err:any, rows: any) => {
                         if (err) reject(err)
                         else resolve(rows)
+                        stat[0].
                         stat[0].close((err:any)=> {
                             if(err) console.log('Statement closing issues::::')
                             else {
@@ -114,9 +115,14 @@ export default class JdbcDriver implements IDrivers{
             stat[0].executeUpdate(sql, async (err:any, count:any) => {
                 if(err) reject(err)
                 else resolve(count)
+                const coon = JdbcDriver.connection.get(this.type)
+                console.log('close bf _pool length ?? '+coon._pool.length)
+                console.log('close bf _reserved length ?? '+coon._reserved.length)
                 stat[0].close((err:any)=> {
                     if(err) console.log('Statement closing issues::::')
                     else {
+                        console.log('close af _pool length ?? '+coon._pool.length)
+                        console.log('close af _reserved length ?? '+coon._reserved.length)
                         console.log('Statement closed')
                         this.close(stat[1])
                     }
@@ -144,6 +150,8 @@ export default class JdbcDriver implements IDrivers{
     protected open = async () => {
         return new Promise(async (resolve, reject) => {
             const connection = JdbcDriver.connection.get(this.type)
+            console.log('_pool length ' +connection._pool.length)
+            console.log('_reserved length ' +connection._reserved.length)
             if (this.is_init(connection)){
                 resolve(connection._reserved[0])            
             }else{
