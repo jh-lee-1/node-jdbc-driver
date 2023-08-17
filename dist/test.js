@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -59,7 +36,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = __importStar(require("./index"));
 // Set the connection details for the Hive server
 var host = '220.76.251.226';
 var port = 8629;
@@ -69,29 +45,8 @@ var password = 'xems2023';
 var minpoolsize = 5;
 var maxpoolsize = 20;
 var get_test = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var jdbc, i, count, _a, _b;
-    return __generator(this, function (_c) {
-        switch (_c.label) {
-            case 0:
-                jdbc = new index_1.default(index_1.ConnectionType.tibero, { host: host, port: port, database: database, username: username, password: password, minpoolsize: minpoolsize, maxpoolsize: maxpoolsize });
-                i = 0;
-                _c.label = 1;
-            case 1:
-                if (!(i < 100)) return [3 /*break*/, 5];
-                return [4 /*yield*/, jdbc.count('xems.tbb_device')];
-            case 2:
-                count = _c.sent();
-                _b = (_a = console).log;
-                return [4 /*yield*/, jdbc.connection_details()];
-            case 3:
-                _b.apply(_a, [_c.sent()]);
-                console.log(count);
-                _c.label = 4;
-            case 4:
-                i++;
-                return [3 /*break*/, 1];
-            case 5: return [2 /*return*/];
-        }
+    return __generator(this, function (_a) {
+        return [2 /*return*/];
     });
 }); };
-get_test();
+// get_test()
