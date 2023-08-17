@@ -172,8 +172,10 @@ var JdbcDriver = /** @class */ (function () {
                                                             reject(err);
                                                         else
                                                             resolve(rows);
-                                                        stat[0].
-                                                            stat[0].close(function (err) {
+                                                        var coon = JdbcDriver.connection.get(_this.type);
+                                                        console.log('close bf _pool length ?? ' + coon._pool.length);
+                                                        console.log('close bf _reserved length ?? ' + coon._reserved.length);
+                                                        stat[0].close(function (err) {
                                                             if (err)
                                                                 console.log('Statement closing issues::::');
                                                             else {

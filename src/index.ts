@@ -95,7 +95,9 @@ export default class JdbcDriver implements IDrivers{
                     await resultset.toObjArray((err:any, rows: any) => {
                         if (err) reject(err)
                         else resolve(rows)
-                        stat[0].
+                        const coon = JdbcDriver.connection.get(this.type)
+                        console.log('close bf _pool length ?? '+coon._pool.length)
+                        console.log('close bf _reserved length ?? '+coon._reserved.length)
                         stat[0].close((err:any)=> {
                             if(err) console.log('Statement closing issues::::')
                             else {
