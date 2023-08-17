@@ -11,6 +11,8 @@ export default class Tibero implements IConnectionType {
         drivername: string;
         user: string;
         password: string;
+        minpoolsize: number;
+        maxpoolsize: number;
     };
     get_query: (tableName: string, type?: string) => string;
     get_version: () => string;

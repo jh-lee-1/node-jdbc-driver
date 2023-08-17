@@ -16,7 +16,9 @@ export default class Tibero implements IConnectionType{
             url: this.get_jdbcUrl(),
             drivername: this.driverName,
             user: this.config.username,
-            password: this.config.password
+            password: this.config.password,
+            minpoolsize: this.config.minpoolsize,
+            maxpoolsize: this.config.maxpoolsize
         }
     }
 

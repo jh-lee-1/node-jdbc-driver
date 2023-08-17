@@ -12,7 +12,9 @@ var Tibero = /** @class */ (function () {
                 url: _this.get_jdbcUrl(),
                 drivername: _this.driverName,
                 user: _this.config.username,
-                password: _this.config.password
+                password: _this.config.password,
+                minpoolsize: _this.config.minpoolsize,
+                maxpoolsize: _this.config.maxpoolsize
             };
         };
         this.get_query = function (tableName, type) {

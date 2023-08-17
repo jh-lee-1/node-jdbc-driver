@@ -61,25 +61,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = __importStar(require("./index"));
 // Set the connection details for the Hive server
-var host = '<host>';
-var port = 0; // <port>
-var database = '<database_name>';
-var username = '<username>';
-var password = '<password>';
+var host = '220.76.251.226';
+var port = 8629;
+var database = 'tibero';
+var username = 'xems';
+var password = 'xems2023';
 var minpoolsize = 10;
 var maxpoolsize = 100;
-var get_count = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var jdbc, count;
+var get_test = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var jdbc;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                jdbc = new index_1.default(index_1.ConnectionType.postgreSql, { host: host, port: port, database: database, username: username, password: password, minpoolsize: minpoolsize, maxpoolsize: maxpoolsize });
-                return [4 /*yield*/, jdbc.count('test')];
-            case 1:
-                count = _a.sent();
-                console.log('total count:', count);
-                return [2 /*return*/];
-        }
+        jdbc = new index_1.default(index_1.ConnectionType.tibero, { host: host, port: port, database: database, username: username, password: password, minpoolsize: minpoolsize, maxpoolsize: maxpoolsize });
+        return [2 /*return*/];
     });
 }); };
-get_count();
+get_test();
