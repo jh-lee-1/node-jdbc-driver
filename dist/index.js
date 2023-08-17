@@ -133,11 +133,13 @@ var JdbcDriver = /** @class */ (function () {
             return __generator(this, function (_a) {
                 try {
                     coon = JdbcDriver.connection.get(this.type);
+                    console.log('bf pool length ?? ' + connObj._pool.length);
                     coon.release(connObj, function (err) {
                         if (err)
                             console.log('Connection relase issues::::');
                         else
                             console.log('Connection relase');
+                        console.log('af pool length' + connObj._pool.length);
                     });
                 }
                 catch (err) {
