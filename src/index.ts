@@ -75,11 +75,11 @@ export default class JdbcDriver implements IDrivers{
     protected close = async (connObj:any) => {
         try{
             const coon = JdbcDriver.connection.get(this.type)
-            console.log('bf pool length ?? '+connObj._pool.length)
+            console.log('bf pool length ?? '+coon._pool.length)
             coon.release(connObj,(err:any) => {
                 if(err) console.log('Connection relase issues::::')
                 else console.log('Connection relase')
-                console.log('af pool length'+connObj._pool.length)
+                console.log('af pool length'+coon._pool.length)
             })
         }catch(err){
             console.log('Connection close error:::::', err)

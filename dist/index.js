@@ -129,17 +129,17 @@ var JdbcDriver = /** @class */ (function () {
             });
         }); };
         this.close = function (connObj) { return __awaiter(_this, void 0, void 0, function () {
-            var coon;
+            var coon_1;
             return __generator(this, function (_a) {
                 try {
-                    coon = JdbcDriver.connection.get(this.type);
-                    console.log('bf pool length ?? ' + connObj._pool.length);
-                    coon.release(connObj, function (err) {
+                    coon_1 = JdbcDriver.connection.get(this.type);
+                    console.log('bf pool length ?? ' + coon_1._pool.length);
+                    coon_1.release(connObj, function (err) {
                         if (err)
                             console.log('Connection relase issues::::');
                         else
                             console.log('Connection relase');
-                        console.log('af pool length' + connObj._pool.length);
+                        console.log('af pool length' + coon_1._pool.length);
                     });
                 }
                 catch (err) {
