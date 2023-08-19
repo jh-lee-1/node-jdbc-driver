@@ -1,12 +1,13 @@
 {
-  "name": "node-jdbc-driver",
-  "version": "1.1.2",
-  "description": "This package is help to use jdbc connection",
+  "name": "node-jdbc-tibero",
+  "version": "0.0.1",
+  "description": "This package is help to use tibero jdbc connection",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "ts-node src/test.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "rm -rf ./dist&&tsc"
   },
   "keywords": [
     "node-jdbc-driver",
@@ -27,9 +28,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaynath-d/node-jdbc-driver.git"
+    "url": "git://github.com/jh-lee-1/node-jdbc-driver.git"
   },
-  "author": "Jaynath Ray <pcode027@gmail.com>",
+  "author": "wogudnn",
   "license": "ISC",
-  "readmeFilename": "README.md"
+  "bugs": {
+    "url": "https://github.com/jh-lee-1/node-jdbc-driver/issues"
+  }
 }

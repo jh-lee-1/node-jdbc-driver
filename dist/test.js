@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,17 +59,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var index_1 = __importStar(require("./index"));
 // Set the connection details for the Hive server
-var host = '220.76.251.226';
-var port = 8629;
-var database = 'tibero';
-var username = 'xems';
-var password = 'xems2023';
-var minpoolsize = 5;
-var maxpoolsize = 20;
+var host = '';
+var port = 0;
+var database = '';
+var username = '';
+var password = '';
+var minpoolsize = 0;
+var maxpoolsize = 0;
 var get_test = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var jdbc, count;
     return __generator(this, function (_a) {
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                jdbc = new index_1.default(index_1.ConnectionType.tibero, { host: host, port: port, database: database, username: username, password: password, minpoolsize: minpoolsize, maxpoolsize: maxpoolsize });
+                return [4 /*yield*/, jdbc.sql('SELECT sum(total_rows),sum(compliant_rows), COUNT(total_rows)  from t_krhnz__dz.compliance_stats_spark')];
+            case 1:
+                count = _a.sent();
+                console.log(count);
+                return [2 /*return*/];
+        }
     });
 }); };
-// get_test()
+get_test();
